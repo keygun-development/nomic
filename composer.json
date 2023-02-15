@@ -1,0 +1,41 @@
+{
+    "name": "keygun/nomic",
+    "type": "library",
+    "description": "Nomic a self managable content management system build for the Laravel framework.",
+    "keywords": ["nomic", "framework", "laravel", "dashboard", "cms", "content management system"],
+    "authors": [
+        {
+            "name": "Keagan Mulder",
+            "email": "keaganmulder1@gmail.com",
+            "homepage": "https://keaganmulder.nl"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "laravel/framework": "^10.0",
+        "doctrine/dbal": "^3.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Keygun\\Nomic\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "10.x-dev"
+        },
+        "laravel": {
+            "dont-discover": []
+        }
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
+    },
+    "minimum-stability": "stable",
+    "prefer-stable": true
+}
