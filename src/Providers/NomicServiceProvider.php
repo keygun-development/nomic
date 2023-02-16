@@ -17,7 +17,7 @@ class NomicServiceProvider extends ServiceProvider
     {
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');
-        $this->generateDashboard(config('app.nomic.tables') ?: Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
+        $this->generateDashboard(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
     }
 
     public function register()
@@ -31,13 +31,21 @@ class NomicServiceProvider extends ServiceProvider
      */
     public function generateDashboard(array $tables): void
     {
+        $dashboardPath = app_path("Http/Controllers/Dashboard");
+        if (!is_dir($dashboardPath)) {
+            mkdir($dashboardPath);
+        }
         foreach ($tables as $table) {
             $name = Str::snake(Str::plural($table));
             $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
-            $controller = <<<PHP
+
+            if (!file_exists($dashboardPath . "/" . $className . ".php")) {
+                $controller = <<<PHP
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Dashboard;
+
+use App\Http\Controllers\Controller;
 
 class $className extends Controller
 {
@@ -48,8 +56,9 @@ class $className extends Controller
 }
 PHP;
 
-            file_put_contents(app_path("Http/Controllers/{$className}.php"), $controller);
-            Route::resource($name, "App\\Http\\Controllers\\{$className}");
+                file_put_contents(app_path("Http/Controllers/Dashboard/{$className}.php"), $controller);
+                Route::resource($name, "App\\Http\\Controllers\\Dashboard\\{$className}");
+            }
         }
     }
 }
