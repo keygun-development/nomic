@@ -15,9 +15,10 @@ class NomicServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $tables = config('app.nomic.tables');
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');
-        $this->createsControllers(Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
+        $this->generateDashboard($tables ?: Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
     }
 
     public function register()
@@ -29,7 +30,7 @@ class NomicServiceProvider extends ServiceProvider
      * @param array $tables
      * @return void
      */
-    public function createsControllers(array $tables): void
+    public function generateDashboard(array $tables): void
     {
         foreach ($tables as $table) {
             $name = Str::snake(Str::plural($table));
@@ -43,7 +44,7 @@ class $className extends Controller
 {
   public function index()
   {
-  return view('$name.index');
+      return view('$name.index');
   }
 }
 PHP;
