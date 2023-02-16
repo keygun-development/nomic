@@ -2,22 +2,17 @@
 
 namespace Keygun\Nomic\Providers;
 
-use Doctrine\DBAL\Exception;
-use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 
 class NomicServiceProvider extends ServiceProvider
 {
-    /**
-     * @throws Exception
-     */
     public function boot()
     {
+        $this->generateControllers(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');
-        $this->generateDashboard(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
     }
 
     public function register()
@@ -29,7 +24,7 @@ class NomicServiceProvider extends ServiceProvider
      * @param array $tables
      * @return void
      */
-    public function generateDashboard(array $tables): void
+    public function generateControllers(array $tables): void
     {
         $dashboardPath = app_path("Http/Controllers/Dashboard");
         if (!is_dir($dashboardPath)) {
@@ -51,13 +46,12 @@ class $className extends Controller
 {
   public function index()
   {
-      return view('$name.index');
+      return view('dashboard.$name');
   }
 }
 PHP;
 
                 file_put_contents(app_path("Http/Controllers/Dashboard/{$className}.php"), $controller);
-                Route::resource($name, "App\\Http\\Controllers\\Dashboard\\{$className}");
             }
         }
     }

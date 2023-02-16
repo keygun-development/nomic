@@ -1,6 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Str;
+use Keygun\Nomic\Http\Controllers\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/testje', function () {
-    return view('welcome');
-});
+    $tables = config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+foreach ($tables as $table) {
+    $name = Str::snake(Str::plural($table));
+    $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
+    Route::resource('dashboard/'.$name, "App\\Http\\Controllers\\Dashboard\\{$className}")
+        ->middleware('auth');
+}
+
+Route::get('/dashboard', [DashboardController::class, 'index']);
