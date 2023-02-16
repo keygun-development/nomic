@@ -15,10 +15,9 @@ class NomicServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $tables = config('app.nomic.tables');
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');
-        $this->generateDashboard($tables ?: Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
+        $this->generateDashboard(config('app.nomic.tables') ?: Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
     }
 
     public function register()
