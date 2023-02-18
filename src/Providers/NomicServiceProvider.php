@@ -10,6 +10,7 @@ class NomicServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        publish_nomic_assets();
         $this->generateControllers(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');

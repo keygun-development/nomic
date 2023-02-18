@@ -16,9 +16,15 @@
         "doctrine/dbal": "^3.6"
     },
     "autoload": {
+        "files": [
+            "src/helpers.php"
+        ],
         "psr-4": {
             "Keygun\\Nomic\\": "src/"
         }
+    },
+    "scripts": {
+        "build": "npx tailwindcss build -i resources/css/styles.css -o public/css/styles.css"
     },
     "extra": {
         "branch-alias": {
