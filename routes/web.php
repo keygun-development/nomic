@@ -21,7 +21,16 @@ foreach ($tables as $table) {
     $name = Str::snake(Str::plural($table));
     $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
     Route::resource('dashboard/'.$name, "App\\Http\\Controllers\\Dashboard\\{$className}")
-        ->middleware('auth');
+        ->middleware('auth')
+        ->names([
+            'index' => "dashboard.{$name}.index",
+            'create' => "dashboard.{$name}.create",
+            'store' => "dashboard.{$name}.store",
+            'show' => "dashboard.{$name}.show",
+            'edit' => "dashboard.{$name}.edit",
+            'update' => "dashboard.{$name}.update",
+            'destroy' => "dashboard.{$name}.destroy",
+        ]);
 }
 
-Route::get('/dashboard', [DashboardController::class, 'index']);
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
