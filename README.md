@@ -34,9 +34,15 @@ To configure Nomic, you need to add the nomic configuration array to your Larave
 ```
 By default, Nomic uses the Laravel model for each table to manage the data. However, you can customize Nomic's behavior by creating a custom controller and view for each table.
 
+To access the dashboard, visit the /nomic route in your Laravel application. From there, you can manage the content for the tables you have configured in the config/app.php file.
+
 ## Why Nomic?
 
 Creating a dashboard to manage website content can be a time-consuming process. With Nomic, you can quickly and easily generate a fully customizable dashboard based on your database tables. Nomic is designed to be flexible, allowing you to customize the behavior and appearance of the dashboard to suit your needs.
+
+## Contribution
+
+Contributions to Nomic are welcome! If you find a bug or have a feature request, please create an issue on the [Github project](https://github.com/keygun-development/nomic/issues).
 
 ## License
 
