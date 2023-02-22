@@ -5,6 +5,8 @@ namespace Keygun\Nomic\Providers;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
+use Keygun\Nomic\Creators\ControllerCreator;
+use Keygun\Nomic\Creators\ViewCreator;
 
 class NomicServiceProvider extends ServiceProvider
 {
@@ -28,31 +30,30 @@ class NomicServiceProvider extends ServiceProvider
     public function generateControllers(array $tables): void
     {
         $dashboardPath = app_path("Http/Controllers/Dashboard");
+        $viewsPath = resource_path("views/dashboard");
+
         if (!is_dir($dashboardPath)) {
             mkdir($dashboardPath);
         }
+        if (!is_dir($viewsPath)) {
+            mkdir($viewsPath, 0755, true);
+        }
+
         foreach ($tables as $table) {
             $name = Str::snake(Str::plural($table));
-            $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
+            $modelName = ucfirst(Str::camel(Str::singular($table)));
+            $className = $modelName . 'Controller';
+            $modelClass = "App\\Models\\{$modelName}";
+            $viewName = Str::plural($name) . ".blade.php";
 
-            if (!file_exists($dashboardPath . "/" . $className . ".php")) {
-                $controller = <<<PHP
-<?php
+            $controllerFilePath = $dashboardPath . "/" . $className . ".php";
+            if (!file_exists($controllerFilePath)) {
+                file_put_contents($controllerFilePath, ControllerCreator::createController($modelName, $name, $modelClass, $className));
+            }
 
-namespace App\Http\Controllers\Dashboard;
-
-use App\Http\Controllers\Controller;
-
-class $className extends Controller
-{
-  public function index()
-  {
-      return view('dashboard.$name');
-  }
-}
-PHP;
-
-                file_put_contents(app_path("Http/Controllers/Dashboard/{$className}.php"), $controller);
+            $viewFilePath = $viewsPath . "/" . $viewName;
+            if (!file_exists($viewFilePath)) {
+                file_put_contents($viewFilePath, ViewCreator::createView($modelName, $name));
             }
         }
     }
