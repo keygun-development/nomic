@@ -23,9 +23,14 @@ class ControllerCreator
                 ]);
             }
 
-            public function new()
+            public function createnew()
             {
-                dump("new");
+                return dump("new");
+            }
+
+            public function show()
+            {
+              return dump('show');
             }
         }
         PHP;

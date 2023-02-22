@@ -16,11 +16,12 @@ use Keygun\Nomic\Http\Controllers\DashboardController;
 |
 */
 
-    $tables = config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+$tables = config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
 foreach ($tables as $table) {
     $name = Str::snake(Str::plural($table));
     $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
-    Route::resource('dashboard/'.$name, "App\\Http\\Controllers\\Dashboard\\{$className}")
+    dump($name);
+    Route::resource('dashboard/' . $name, "App\\Http\\Controllers\\Dashboard\\{$className}")
         ->names([
             'index' => "dashboard.{$name}.index",
             'create' => "dashboard.{$name}.create",
@@ -29,8 +30,8 @@ foreach ($tables as $table) {
             'edit' => "dashboard.{$name}.edit",
             'update' => "dashboard.{$name}.update",
             'destroy' => "dashboard.{$name}.destroy",
-            'new' => "dashboard.{$name}.new",
-        ])->except(['new']);
+        ]);
+    Route::get("dashboard/${name}/new", ["App\\Http\\Controllers\\Dashboard\\{$className}", 'createnew'])->name("dashboard.${name}.createnew");
 }
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
