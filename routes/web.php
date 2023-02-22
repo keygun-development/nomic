@@ -21,7 +21,6 @@ foreach ($tables as $table) {
     $name = Str::snake(Str::plural($table));
     $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
     Route::resource('dashboard/'.$name, "App\\Http\\Controllers\\Dashboard\\{$className}")
-        ->middleware('auth')
         ->names([
             'index' => "dashboard.{$name}.index",
             'create' => "dashboard.{$name}.create",
