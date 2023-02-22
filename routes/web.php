@@ -29,7 +29,8 @@ foreach ($tables as $table) {
             'edit' => "dashboard.{$name}.edit",
             'update' => "dashboard.{$name}.update",
             'destroy' => "dashboard.{$name}.destroy",
-        ]);
+            'new' => "dashboard.{$name}.new",
+        ])->except(['new']);
 }
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');

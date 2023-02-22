@@ -10,7 +10,14 @@ class ViewCreator
     @extends('nomic::layouts.dashboard')
     @section('pageTitle', "${modelName}s")
     @section('content')
-      <h1 class="text-2xl font-bold">$modelName</h1>
+      <div class="flex justify-between flex-wrap">
+        <h1 class="text-4xl font-bold">
+            ${modelName}s
+        </h1>
+        <a href="{{ route('dashboard.$name.new') }}" class="c-button c-button__blue">
+            New ${modelName}
+        </a>
+    </div>
       <div class="overflow-x-auto">
         <table class="mt-4 w-full">
           <thead>

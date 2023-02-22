@@ -5,3 +5,20 @@
 .c-navigation__nomic-logo>img {
     height: 80px;
 }
+
+.c-button {
+    padding: 0.5rem 1.25rem;
+    font-weight: bold;
+    border-radius: 0.375rem;
+    text-align: center;
+    transition: .3s;
+}
+
+.c-button__blue {
+    color: white;
+    background: #46c5f1;
+}
+
+.c-button__blue:hover {
+    background: #1cbcf3;
+}

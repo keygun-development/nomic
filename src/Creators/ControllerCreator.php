@@ -22,6 +22,11 @@ class ControllerCreator
                     '$name' => $modelName::all()
                 ]);
             }
+
+            public function new()
+            {
+                dump("new");
+            }
         }
         PHP;
     }
