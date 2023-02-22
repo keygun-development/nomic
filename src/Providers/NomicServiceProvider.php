@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Keygun\Nomic\Creators\ControllerCreator;
 use Keygun\Nomic\Creators\ViewCreator;
+use Illuminate\Support\Facades\Artisan;
 
 class NomicServiceProvider extends ServiceProvider
 {
@@ -49,6 +50,10 @@ class NomicServiceProvider extends ServiceProvider
             $controllerFilePath = $dashboardPath . "/" . $className . ".php";
             if (!file_exists($controllerFilePath)) {
                 file_put_contents($controllerFilePath, ControllerCreator::createController($modelName, $name, $modelClass, $className));
+            }
+
+            if (!class_exists($modelClass)) {
+                Artisan::call('make:model', ['name' => $modelName]);
             }
 
             $viewFilePath = $viewsPath . "/" . $viewName;

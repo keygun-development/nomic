@@ -1,3 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.c-navigation__nomic-logo>img {
+    height: 80px;
+}
