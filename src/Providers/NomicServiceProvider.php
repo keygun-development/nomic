@@ -2,21 +2,21 @@
 
 namespace Keygun\Nomic\Providers;
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Keygun\Nomic\Creators\ControllerCreator;
 use Keygun\Nomic\Creators\ViewCreator;
-use Illuminate\Support\Facades\Artisan;
 
 class NomicServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         publish_nomic_assets();
-        $this->generateControllers(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
         $this->loadRoutesFrom(__DIR__ . '/../../routes/web.php');
         $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'nomic');
+        $this->generateControllers(config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSchemaManager()->listTableNames());
     }
 
     public function register()
@@ -58,7 +58,7 @@ class NomicServiceProvider extends ServiceProvider
 
             $viewFilePath = $viewsPath . "/" . $viewName;
             if (!file_exists($viewFilePath)) {
-                file_put_contents($viewFilePath, ViewCreator::createView($modelName, $name));
+                file_put_contents($viewFilePath, ViewCreator::createView($modelName, $modelClass));
             }
         }
     }

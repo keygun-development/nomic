@@ -2,35 +2,23 @@
 
 namespace Keygun\Nomic\Creators;
 
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Schema;
+
 class ViewCreator
 {
-    public static function createView(string $modelName, string $name): string
+    public static function createView(string $modelName, string $modelClass): string
     {
-        return <<<BLADE
-    @extends('nomic::layouts.dashboard')
-    @section('pageTitle', "${modelName}s")
-    @section('content')
-      <div class="flex justify-between flex-wrap">
-        <h1 class="text-4xl font-bold">
-            ${modelName}s
-        </h1>
-        <a href="{{ route('dashboard.$name.new') }}" class="c-button c-button__blue">
-            New ${modelName}
-        </a>
-    </div>
-      <div class="overflow-x-auto">
-        <table class="mt-4 w-full">
-          <thead>
-            <tr>
-              <th>Id</th>
-            </tr>
-          </thead>
-          <tbody>
-            {{-- Todo: Loop through all the ${modelName}s --}}
-          </tbody>
-        </table>
-      </div>
-    @endsection
-    BLADE;
+        $tableName = (new $modelClass)->getTable();
+        $connectionName = (new $modelClass)->getConnectionName();
+        $columns = Schema::getConnection($connectionName)
+            ->getSchemaBuilder()
+            ->getColumnListing($tableName);
+        $data = [
+          'columns' => $columns,
+          'modelName' => $modelName
+        ];
+
+        return view('nomic::creators.list', $data)->render();
     }
 }
