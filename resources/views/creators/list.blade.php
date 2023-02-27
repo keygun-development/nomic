@@ -19,7 +19,7 @@
             </tr>
             </thead>
             <tbody>
-            {{-- You'll still need to loop through all the "$modelName".s yourself --}}
+            {!! \Keygun\Nomic\Creators\ViewCreator::returnModelLoop($columns) !!}
             </tbody>
         </table>
     </div>

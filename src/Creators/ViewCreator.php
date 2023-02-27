@@ -21,4 +21,17 @@ class ViewCreator
 
         return view('nomic::creators.list', $data)->render();
     }
+
+    public static function returnModelLoop($columns): string
+    {
+        return '
+        @foreach ($models as $model)
+            <tr>
+                @foreach ($columns as $column)
+                    <td>{{ $model->$column }}</td>
+                @endforeach
+            </tr>
+        @endforeach
+        ';
+    }
 }

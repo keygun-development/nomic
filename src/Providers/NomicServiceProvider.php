@@ -3,7 +3,6 @@
 namespace Keygun\Nomic\Providers;
 
 use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Str;
 use Keygun\Nomic\Creators\ControllerCreator;
@@ -58,7 +57,7 @@ class NomicServiceProvider extends ServiceProvider
 
             $viewFilePath = $viewsPath . "/" . $viewName;
             if (!file_exists($viewFilePath)) {
-                file_put_contents($viewFilePath, ViewCreator::createView($modelName, $modelClass));
+                file_put_contents($viewFilePath, ViewCreator::createView($modelName, $modelClass, $modelClass::all()));
             }
         }
     }
