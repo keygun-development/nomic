@@ -20,18 +20,17 @@ $tables = config('app.nomic.tables') ?? Schema::getConnection()->getDoctrineSche
 foreach ($tables as $table) {
     $name = Str::snake(Str::plural($table));
     $className = ucfirst(Str::camel(Str::singular($table))) . 'Controller';
-    dump($name);
-    Route::resource('dashboard/' . $name, "App\\Http\\Controllers\\Dashboard\\{$className}")
+    Route::resource('nomic/' . $name, "App\\Http\\Controllers\\Dashboard\\{$className}")
         ->names([
-            'index' => "dashboard.{$name}.index",
-            'create' => "dashboard.{$name}.create",
-            'store' => "dashboard.{$name}.store",
-            'show' => "dashboard.{$name}.show",
-            'edit' => "dashboard.{$name}.edit",
-            'update' => "dashboard.{$name}.update",
-            'destroy' => "dashboard.{$name}.destroy",
+            'index' => "nomic.{$name}.index",
+            'create' => "nomic.{$name}.create",
+            'store' => "nomic.{$name}.store",
+            'show' => "nomic.{$name}.show",
+            'edit' => "nomic.{$name}.edit",
+            'update' => "nomic.{$name}.update",
+            'destroy' => "nomic.{$name}.destroy",
         ]);
-    Route::get("dashboard/${name}/new", ["App\\Http\\Controllers\\Dashboard\\{$className}", 'createnew'])->name("dashboard.${name}.createnew");
+    Route::get("nomic/${name}/new", ["App\\Http\\Controllers\\Dashboard\\{$className}", 'createnew'])->name("nomic.${name}.createnew");
 }
 
-Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
+Route::get('/nomic', [DashboardController::class, 'index'])->name('nomic.index');

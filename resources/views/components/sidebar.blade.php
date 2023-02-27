@@ -9,8 +9,8 @@
     <div class="xl:w-10/12 w-11/12 mx-auto">
         <div class="flex flex-row justify-between md:flex-col items-center lg:items-start md:space-y-8">
             <a class="duration-300 hover:text-white text-lg font-semibold flex items-center
-            {{ request()->routeIs('dashboard.index') ? 'text-white' : 'text-gray-400'}}"
-               href="/dashboard">
+            {{ request()->routeIs('nomic.index') ? 'text-white' : 'text-gray-400'}}"
+               href="/nomic">
                 <p class="hidden lg:block">
                     Dashboard
                 </p>

@@ -5,7 +5,7 @@
                 <x-logo />
             </a>
             <div class="flex items-center sm:ml-6">
-                <a class="underline" href="/dashboard">
+                <a class="underline" href="/nomic">
                     Dashboard
                 </a>
             </div>
