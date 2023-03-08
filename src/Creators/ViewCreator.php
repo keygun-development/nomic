@@ -2,7 +2,6 @@
 
 namespace Keygun\Nomic\Creators;
 
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Schema;
 
 class ViewCreator
@@ -15,8 +14,8 @@ class ViewCreator
             ->getSchemaBuilder()
             ->getColumnListing($tableName);
         $data = [
-          'columns' => $columns,
-          'modelName' => $modelName
+            'columns' => $columns,
+            'modelName' => $modelName
         ];
 
         return view('nomic::creators.list', $data)->render();
@@ -24,14 +23,37 @@ class ViewCreator
 
     public static function returnModelLoop($columns): string
     {
-        return '
-        @foreach ($models as $model)
-            <tr>
-                @foreach ($columns as $column)
-                    <td>{{ $model->$column }}</td>
+        return '@foreach ($models as $model)
+                <tr class="border-b whitespace-nowrap">
+                    @foreach ($columns as $column)
+                        <td class="text-left p-4">{{ $model->$column }}</td>
+                    @endforeach
+                </tr>
+            @endforeach';
+    }
+
+    public static function layout($modelName): string
+    {
+        return "@extends('nomic::layouts.dashboard')
+@section('pageTitle', '$modelName')";
+    }
+
+    public static function contentSection(): string
+    {
+        return "@section('content')";
+    }
+
+    public static function endSection(): string
+    {
+        return '@endsection';
+    }
+
+    public static function returnColumnLoop($columns): string
+    {
+        return '<tr>
+                @foreach($columns as $column)
+                    <th class="text-left px-4">{{ ucfirst($column) }}</th>
                 @endforeach
-            </tr>
-        @endforeach
-        ';
+            </tr>';
     }
 }

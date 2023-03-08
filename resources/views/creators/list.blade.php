@@ -1,9 +1,8 @@
-@extends('nomic::layouts.dashboard')
-@section('pageTitle', $modelName."s")
-@section('content')
+{!! \Keygun\Nomic\Creators\ViewCreator::layout(Str::plural($modelName)) !!}
+{!! \Keygun\Nomic\Creators\ViewCreator::contentSection() !!}
     <div class="flex justify-between flex-wrap">
         <h1 class="text-4xl font-bold">
-            {{ $modelName }}s
+            {{ Str::plural($modelName) }}
         </h1>
         <a class="c-button c-button__blue">
             New
@@ -12,15 +11,11 @@
     <div class="mt-4 overflow-x-auto">
         <table class="w-full">
             <thead>
-            <tr>
-                @foreach($columns as $column)
-                    <th>{{ $column }}</th>
-                @endforeach
-            </tr>
+            {!! \Keygun\Nomic\Creators\ViewCreator::returnColumnLoop($columns) !!}
             </thead>
             <tbody>
             {!! \Keygun\Nomic\Creators\ViewCreator::returnModelLoop($columns) !!}
             </tbody>
         </table>
     </div>
-@endsection
+{!! \Keygun\Nomic\Creators\ViewCreator::endSection() !!}
